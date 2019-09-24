@@ -50,4 +50,10 @@ public class CompanyServiceImpl implements ICompanyService {
     public Optional<Company> findById(Long id) {
         return companyRepository.findById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long count(String name) {
+        return companyRepository.count(name);
+    }
 }

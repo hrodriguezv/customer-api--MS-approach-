@@ -30,7 +30,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                     "OR " +
                     "LOWER(cu.address) LIKE %?2% " +
                     "OR " +
-                    "LOWER(cu.username) LIKE %?2% " +
+                    "cu.username LIKE %?2% " +
                     "OR " +
                     "LOWER(cu.email) LIKE %?2% " +
                     ")" +
@@ -43,4 +43,13 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                     ") "
     )
     Page<Customer> findAll(Long companyId, String criteria, Integer status, Pageable pageable);
+
+    @Query(
+            value = "SELECT " +
+                    " COUNT(cu) " +
+                    "FROM Customer cu " +
+                    "WHERE " +
+                    "cu.username = ?1 "
+    )
+    Long count(String username);
 }

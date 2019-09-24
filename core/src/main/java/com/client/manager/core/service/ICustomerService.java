@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ICustomerService extends IBaseService<Customer, Long> {
     Page<Customer> find(Long companyId, String criteria, StatusDefinedValue status, Pageable pageable);
+
+    Long count(String username);
 }

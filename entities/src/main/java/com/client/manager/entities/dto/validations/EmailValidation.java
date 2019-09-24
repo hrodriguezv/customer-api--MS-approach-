@@ -15,16 +15,14 @@ public class EmailValidation {
 
     public static void validateEmailLength(String email) {
         Optional.ofNullable(email)
-                .map(s -> s.length() <= EmailValidation.EMAIL_MAX_LENGTH)
+                .filter(s -> s.length() <= EmailValidation.EMAIL_MAX_LENGTH)
                 .orElseThrow(EmailMaxLengthException::new);
     }
 
     public static void validateEmailFormat(String email) {
-        if (!Optional.ofNullable(email)
-                .map(EmailValidation::isValid)
-                .orElseThrow(EmailBadFormatException::new)) {
-            throw new EmailBadFormatException();
-        }
+        Optional.ofNullable(email)
+                .filter(EmailValidation::isValid)
+                .orElseThrow(EmailBadFormatException::new);
     }
 
     public static boolean isValid(String email) {

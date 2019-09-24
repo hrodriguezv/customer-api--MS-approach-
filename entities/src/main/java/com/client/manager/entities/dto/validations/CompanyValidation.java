@@ -18,25 +18,25 @@ public class CompanyValidation {
 
     public static void validateNameEmpty(CompanyDTO company) {
         Optional.ofNullable(company.getName())
-                .map(s -> !s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .orElseThrow(CompanyEmptyNameException::new);
     }
 
     public static void validateNameLength(CompanyDTO company) {
         Optional.ofNullable(company.getName())
-                .map(s -> s.length() <= CompanyValidation.NAME_MAX_LENGTH)
+                .filter(s -> s.length() <= CompanyValidation.NAME_MAX_LENGTH)
                 .orElseThrow(CompanyMaxNameLengthReachedException::new);
     }
 
     public static void validateAddressEmpty(CompanyDTO company) {
         Optional.ofNullable(company.getAddress())
-                .map(s -> !s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .orElseThrow(CompanyEmptyAddressException::new);
     }
 
     public static void validateAddressLength(CompanyDTO company) {
         Optional.ofNullable(company.getAddress())
-                .map(s -> s.length() <= CompanyValidation.ADDRESS_MAX_LENGTH)
+                .filter(s -> s.length() <= CompanyValidation.ADDRESS_MAX_LENGTH)
                 .orElseThrow(CompanyMaxAddressLengthReachedException::new);
     }
 

@@ -41,4 +41,10 @@ public class CustomerServiceImpl implements ICustomerService {
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long count(String username) {
+        return customerRepository.count(username);
+    }
 }

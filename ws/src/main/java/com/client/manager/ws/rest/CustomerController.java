@@ -1,13 +1,14 @@
 package com.client.manager.ws.rest;
 
+import com.client.manager.core.exception.CustomerNotFoundException;
 import com.client.manager.core.service.ICustomerService;
 import com.client.manager.core.util.BaseServiceUtil;
 import com.client.manager.entities.Customer;
 import com.client.manager.entities.dto.CustomerDTO;
 import com.client.manager.entities.util.CustomerUtil;
 import com.client.manager.entities.util.StatusUtil;
-import com.client.manager.ws.exception.CustomerNotFoundResponseException;
 import com.client.manager.ws.util.WSUtil;
+import com.client.manager.ws.validations.CustomerControllerValidation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,11 +35,11 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO getCustomer(
             @PathVariable Long customerId
-    ) throws CustomerNotFoundResponseException {
+    ) {
         return customerService
                 .findById(customerId)
-                .map(CustomerUtil::build)
-                .orElseThrow(CustomerNotFoundResponseException::new);
+                .map(CustomerUtil::buildDTOFrom)
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     @GetMapping
@@ -67,7 +68,7 @@ public class CustomerController {
         return WSUtil.buildPageFrom(
                 customerPage
                         .get()
-                        .map(CustomerUtil::build)
+                        .map(CustomerUtil::buildDTOFrom)
                         .collect(Collectors.toList()),
                 pageable,
                 customerPage.getTotalElements()
@@ -79,10 +80,15 @@ public class CustomerController {
     public void createCustomer(
             @RequestBody CustomerDTO customer
     ) {
+        CustomerControllerValidation.validateCustomer(
+                customer,
+                () -> this.customerService.count(customer.getUsername())
+        );
+
         this.customerService.save(
                 BaseServiceUtil
                         .<Customer>setupForCreate()
-                        .apply(() -> CustomerUtil.build(customer))
+                        .apply(() -> CustomerUtil.buildEntityFrom(customer))
         );
     }
 
@@ -90,12 +96,18 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO updateCustomer(
             @RequestBody CustomerDTO customer
-    ) throws CustomerNotFoundResponseException {
-        return CustomerUtil.build(
+    ) {
+        CustomerControllerValidation.validateCustomer(
+                customer,
+                this.customerService::findById,
+                () -> this.customerService.count(customer.getUsername())
+        );
+
+        return CustomerUtil.buildDTOFrom(
                 this.customerService.update(
                         BaseServiceUtil
                                 .setupForUpdate(this.customerService::findById)
-                                .apply(() -> CustomerUtil.build(customer))
+                                .apply(() -> CustomerUtil.buildEntityFrom(customer))
                 )
         );
     }
@@ -104,7 +116,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteCustomer(
             @PathVariable Long customerId
-    ) throws CustomerNotFoundResponseException {
+    ) {
         this.customerService.save(
                 BaseServiceUtil
                         .setupForDelete(this.customerService::findById)

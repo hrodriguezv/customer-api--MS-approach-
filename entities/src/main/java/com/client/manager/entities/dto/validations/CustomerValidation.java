@@ -19,49 +19,49 @@ public class CustomerValidation {
 
     public static void validateNameEmpty(CustomerDTO customer) {
         Optional.ofNullable(customer.getName())
-                .map(s -> !s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .orElseThrow(CustomerEmptyNameException::new);
     }
 
     public static void validateNameLength(CustomerDTO customer) {
         Optional.ofNullable(customer.getName())
-                .map(s -> s.length() <= CustomerValidation.NAME_MAX_LENGTH)
+                .filter(s -> s.length() <= CustomerValidation.NAME_MAX_LENGTH)
                 .orElseThrow(CustomerMaxNameLengthReachedException::new);
     }
 
     public static void validateLastNameEmpty(CustomerDTO customer) {
         Optional.ofNullable(customer.getLastName())
-                .map(s -> !s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .orElseThrow(CustomerEmptyLastNameException::new);
     }
 
     public static void validateLastNameLength(CustomerDTO customer) {
         Optional.ofNullable(customer.getLastName())
-                .map(s -> s.length() <= CustomerValidation.LAST_NAME_MAX_LENGTH)
+                .filter(s -> s.length() <= CustomerValidation.LAST_NAME_MAX_LENGTH)
                 .orElseThrow(CustomerMaxLastNameLengthReachedException::new);
     }
 
     public static void validateUsernameEmpty(CustomerDTO customer) {
         Optional.ofNullable(customer.getUsername())
-                .map(s -> !s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .orElseThrow(CustomerEmptyUsernameException::new);
     }
 
     public static void validateUsernameLength(CustomerDTO customer) {
         Optional.ofNullable(customer.getUsername())
-                .map(s -> s.length() <= CustomerValidation.USERNAME_MAX_LENGTH)
+                .filter(s -> s.length() <= CustomerValidation.USERNAME_MAX_LENGTH)
                 .orElseThrow(CustomerMaxUsernameLengthReachedException::new);
     }
 
     public static void validatePasswordEmpty(CustomerDTO customer) {
         Optional.ofNullable(customer.getPassword())
-                .map(s -> !s.isEmpty())
+                .filter(s -> !s.isEmpty())
                 .orElseThrow(CustomerEmptyPasswordException::new);
     }
 
     public static void validatePasswordLength(CustomerDTO customer) {
         Optional.ofNullable(customer.getPassword())
-                .map(s -> s.length() <= CustomerValidation.PASSWORD_MAX_LENGTH)
+                .filter(s -> s.length() <= CustomerValidation.PASSWORD_MAX_LENGTH)
                 .orElseThrow(CustomerMaxPasswordLengthReachedException::new);
     }
 
@@ -73,7 +73,7 @@ public class CustomerValidation {
 
     public static void validateAddressLength(CustomerDTO customer) {
         Optional.ofNullable(customer.getAddress())
-                .map(s -> s.length() <= CustomerValidation.ADDRESS_MAX_LENGTH)
+                .filter(s -> s.length() <= CustomerValidation.ADDRESS_MAX_LENGTH)
                 .orElseThrow(CustomerMaxAddressLengthReachedException::new);
     }
 

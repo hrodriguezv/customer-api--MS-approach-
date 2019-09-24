@@ -1,12 +1,13 @@
 package com.client.manager.ws.rest;
 
+import com.client.manager.core.exception.CompanyNotFoundException;
 import com.client.manager.core.service.ICompanyService;
 import com.client.manager.core.util.CompanyServiceUtil;
 import com.client.manager.entities.Company;
 import com.client.manager.entities.dto.CompanyDTO;
 import com.client.manager.entities.util.CompanyUtil;
-import com.client.manager.ws.exception.CompanyNotFoundResponseException;
 import com.client.manager.ws.util.WSUtil;
+import com.client.manager.ws.validations.CompanyControllerValidation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,11 +33,11 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public CompanyDTO getCompany(
             @PathVariable Long companyId
-    ) throws CompanyNotFoundResponseException {
+    ) {
         return companyService
                 .findById(companyId)
                 .map(CompanyUtil::buildDTOFrom)
-                .orElseThrow(CompanyNotFoundResponseException::new);
+                .orElseThrow(CompanyNotFoundException::new);
     }
 
     @GetMapping
@@ -63,6 +64,11 @@ public class CompanyController {
     public void createCompany(
             @RequestBody CompanyDTO company
     ) {
+        CompanyControllerValidation.validateCompany(
+                company,
+                () -> this.companyService.count(company.getName().toLowerCase())
+        );
+
         this.companyService.save(
                 CompanyServiceUtil
                         .setupForCreate(company)
@@ -74,7 +80,13 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public CompanyDTO updateCompany(
             @RequestBody CompanyDTO company
-    ) throws CompanyNotFoundResponseException {
+    ) {
+        CompanyControllerValidation.validateCompany(
+                company,
+                this.companyService::findById,
+                () -> this.companyService.count(company.getName().toLowerCase())
+        );
+
         return CompanyUtil.buildDTOFrom(
                 this.companyService.update(
                         CompanyServiceUtil
@@ -88,7 +100,7 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteCompany(
             @PathVariable Long companyId
-    ) throws CompanyNotFoundResponseException {
+    ) {
         this.companyService.save(
                 CompanyServiceUtil
                         .setupForDelete(this.companyService::findById)

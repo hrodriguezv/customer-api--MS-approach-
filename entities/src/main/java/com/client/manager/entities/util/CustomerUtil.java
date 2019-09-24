@@ -7,7 +7,7 @@ public class CustomerUtil {
     private CustomerUtil() {
     }
 
-    public static CustomerDTO build(Customer customer) {
+    public static CustomerDTO buildDTOFrom(Customer customer) {
         return new CustomerDTO(
                 customer.getId(),
                 customer.getStatus(),
@@ -16,14 +16,14 @@ public class CustomerUtil {
                 customer.getName(),
                 customer.getLastName(),
                 customer.getUsername(),
-                customer.getPassword(),
+                null,
                 customer.getEmail(),
                 customer.getAddress(),
                 CompanyUtil.buildLightDTOFrom(customer.getCompany())
         );
     }
 
-    public static Customer build(CustomerDTO customer) {
+    public static Customer buildEntityFrom(CustomerDTO customer) {
         return new Customer(
                 customer.getId(),
                 customer.getStatus(),
@@ -39,7 +39,7 @@ public class CustomerUtil {
         );
     }
 
-    public static CustomerDTO buildLight(Customer customer) {
+    public static CustomerDTO buildLightDTOFrom(Customer customer) {
         return new CustomerDTO(
                 customer.getId(),
                 customer.getStatus(),
@@ -55,7 +55,7 @@ public class CustomerUtil {
         );
     }
 
-    public static Customer buildLight(CustomerDTO customer) {
+    public static Customer buildLightEntityFrom(CustomerDTO customer) {
         return new Customer(
                 customer.getId(),
                 customer.getStatus(),

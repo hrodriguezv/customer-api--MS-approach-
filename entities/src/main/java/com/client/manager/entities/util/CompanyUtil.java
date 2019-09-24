@@ -56,7 +56,7 @@ public class CompanyUtil {
                         .collect(Collectors.toList()),
                 company.getCustomers()
                         .stream()
-                        .map(CustomerUtil::buildLight)
+                        .map(CustomerUtil::buildLightDTOFrom)
                         .collect(Collectors.toList())
         );
     }
@@ -80,7 +80,7 @@ public class CompanyUtil {
                 Optional.ofNullable(company.getCustomers())
                         .orElse(new ArrayList<>())
                         .stream()
-                        .map(CustomerUtil::buildLight)
+                        .map(CustomerUtil::buildLightEntityFrom)
                         .collect(Collectors.toList())
         );
     }
