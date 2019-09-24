@@ -24,9 +24,7 @@ public class Customer extends BaseEntityProperties {
     private String username;
     @NotNull
     private String password;
-    @NotNull
     private String email;
-    @NotNull
     private String address;
     @ManyToOne
     @NotNull
