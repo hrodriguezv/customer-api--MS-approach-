@@ -14,8 +14,8 @@ import java.time.ZonedDateTime;
 @EqualsAndHashCode(of = "id")
 @Data
 public abstract class BaseDTOProperties {
+    private Long id;
     protected StatusDefinedValue status;
     protected ZonedDateTime createdDate;
     protected ZonedDateTime updatedDate;
-    private Long id;
 }

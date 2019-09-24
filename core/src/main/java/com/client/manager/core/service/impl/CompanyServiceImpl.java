@@ -1,5 +1,6 @@
 package com.client.manager.core.service.impl;
 
+import com.client.manager.core.exception.CompanyNotFoundException;
 import com.client.manager.core.repository.CompanyRepository;
 import com.client.manager.core.service.ICompanyService;
 import com.client.manager.core.util.CompanyServiceUtil;
@@ -37,7 +38,9 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Company update(Company company) {
-        Company companyToUpdate = companyRepository.findById(company.getId()).orElseThrow(IllegalArgumentException::new);
+        Company companyToUpdate = companyRepository
+                .findById(company.getId())
+                .orElseThrow(CompanyNotFoundException::new);
         CompanyServiceUtil.deleteAllBranchesFrom(companyRepository, companyToUpdate);
         return this.save(company);
     }
