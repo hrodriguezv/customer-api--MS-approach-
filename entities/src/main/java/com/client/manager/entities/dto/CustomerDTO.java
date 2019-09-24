@@ -6,18 +6,15 @@ import lombok.*;
 
 import java.time.ZonedDateTime;
 
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class CustomerDTO {
-    protected StatusDefinedValue status;
-    protected ZonedDateTime createdDate;
-    protected ZonedDateTime updatedDate;
-    private Long id;
+public class CustomerDTO extends BaseDTOProperties {
     private String name;
     private String lastName;
     private String username;
@@ -25,4 +22,28 @@ public class CustomerDTO {
     private String email;
     private String address;
     private CompanyDTO company;
+
+
+    public CustomerDTO(
+            Long id,
+            StatusDefinedValue status,
+            ZonedDateTime createdDate,
+            ZonedDateTime updatedDate,
+            String name,
+            String lastName,
+            String username,
+            String password,
+            String email,
+            String address,
+            CompanyDTO company
+    ) {
+        super(id, status, createdDate, updatedDate);
+        this.name = name;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.company = company;
+    }
 }

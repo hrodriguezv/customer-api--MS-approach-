@@ -1,11 +1,11 @@
 package com.client.manager.ws.rest;
 
 import com.client.manager.core.service.ICompanyService;
+import com.client.manager.core.util.CompanyServiceUtil;
 import com.client.manager.entities.Company;
 import com.client.manager.entities.dto.CompanyDTO;
 import com.client.manager.entities.util.CompanyUtil;
-import com.client.manager.entities.util.EntityUtil;
-import com.client.manager.ws.exception.CompanyNotFoundException;
+import com.client.manager.ws.exception.CompanyNotFoundResponseException;
 import com.client.manager.ws.util.WSUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,11 +32,11 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public CompanyDTO getCompany(
             @PathVariable Long companyId
-    ) throws CompanyNotFoundException {
+    ) throws CompanyNotFoundResponseException {
         return companyService
                 .findById(companyId)
-                .map(CompanyUtil::buildHeadquarter)
-                .orElseThrow(CompanyNotFoundException::new);
+                .map(CompanyUtil::buildDTOFrom)
+                .orElseThrow(CompanyNotFoundResponseException::new);
     }
 
     @GetMapping
@@ -47,11 +47,11 @@ public class CompanyController {
                     direction = Sort.Direction.ASC
             ) Pageable pageable
     ) {
-        Page<Company> companyPage = companyService.find(pageable);
+        Page<Company> companyPage = this.companyService.find(pageable);
         return WSUtil.buildPageFrom(
                 companyPage
                         .get()
-                        .map(CompanyUtil::buildHeadquarter)
+                        .map(CompanyUtil::buildDTOFrom)
                         .collect(Collectors.toList()),
                 pageable,
                 companyPage.getTotalElements()
@@ -63,14 +63,10 @@ public class CompanyController {
     public void createCompany(
             @RequestBody CompanyDTO company
     ) {
-        companyService.save(
-                CompanyUtil.updateCompanyBranches(
-                        EntityUtil.setCreateOrUpdateBaseProperties(
-                                CompanyUtil.buildHeadquarter(
-                                        company
-                                )
-                        )
-                )
+        this.companyService.save(
+                CompanyServiceUtil
+                        .setupForCreate(company)
+                        .get()
         );
     }
 
@@ -78,20 +74,12 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public CompanyDTO updateCompany(
             @RequestBody CompanyDTO company
-    ) throws CompanyNotFoundException {
-        return CompanyUtil.buildHeadquarter(
-                companyService.update(
-                        CompanyUtil.updateCompanyBranches(
-                                EntityUtil.setCreateOrUpdateBaseProperties(
-                                        EntityUtil.copyBaseProperties(
-                                                CompanyUtil.buildHeadquarter(
-                                                        company
-                                                ),
-                                                companyService.findById(company.getId())
-                                                        .orElseThrow(CompanyNotFoundException::new)
-                                        )
-                                )
-                        )
+    ) throws CompanyNotFoundResponseException {
+        return CompanyUtil.buildDTOFrom(
+                this.companyService.update(
+                        CompanyServiceUtil
+                                .setupForUpdate(this.companyService::findById)
+                                .apply(company)
                 )
         );
     }
@@ -100,17 +88,11 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteCompany(
             @PathVariable Long companyId
-    ) throws CompanyNotFoundException {
-        CompanyUtil.buildHeadquarter(
-                companyService.save(
-                        CompanyUtil.setBasePropertiesForAllBranchesFrom(
-                                EntityUtil.setDeleteBaseProperties(
-                                        companyService
-                                                .findById(companyId)
-                                                .orElseThrow(CompanyNotFoundException::new)
-                                )
-                        )
-                )
+    ) throws CompanyNotFoundResponseException {
+        this.companyService.save(
+                CompanyServiceUtil
+                        .setupForDelete(this.companyService::findById)
+                        .apply(companyId)
         );
     }
 }

@@ -13,13 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class CompanyDTO {
-    protected StatusDefinedValue status;
-    protected ZonedDateTime createdDate;
-    protected ZonedDateTime updatedDate;
-    private Long id;
+public class CompanyDTO extends BaseDTOProperties {
     private String name;
     private String description;
     private String address;
@@ -27,4 +23,26 @@ public class CompanyDTO {
     private CompanyDTO parent;
     private List<CompanyDTO> companyBranches = new ArrayList<>();
     private List<CustomerDTO> customers = new ArrayList<>();
+
+    public CompanyDTO(
+            Long id,
+            StatusDefinedValue status,
+            ZonedDateTime createdDate,
+            ZonedDateTime updatedDate,
+            String name, String description,
+            String address,
+            Boolean trunk,
+            CompanyDTO parent,
+            List<CompanyDTO> companyBranches,
+            List<CustomerDTO> customers
+    ) {
+        super(id, status, createdDate, updatedDate);
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.trunk = trunk;
+        this.parent = parent;
+        this.companyBranches = companyBranches;
+        this.customers = customers;
+    }
 }

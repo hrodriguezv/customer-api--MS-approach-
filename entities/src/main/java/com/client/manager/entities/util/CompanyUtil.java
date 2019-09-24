@@ -11,32 +11,35 @@ public class CompanyUtil {
     private CompanyUtil() {
     }
 
-    public static Company setBasePropertiesForAllBranchesFrom(Company company) {
-        company.getCompanyBranches().forEach(c -> {
-            EntityUtil.copyBaseProperties(c, company);
-            CompanyUtil.setBasePropertiesForAllBranchesFrom(c);
+    public static Company copyBasePropertiesForAllBranchesFrom(Company parent) {
+        parent.getCompanyBranches().forEach(c -> {
+            EntityUtil.copyBaseProperties(c, parent);
+            CompanyUtil.copyBasePropertiesForAllBranchesFrom(c);
         });
-        return company;
+        return parent;
     }
 
     public static Company updateCompanyBranches(Company parent) {
         parent.getCompanyBranches().forEach(c ->
-                CompanyUtil.setParentToChildCompany(
-                        c,
-                        parent.getTrunk() ? parent : null
-                )
+                {
+                    CompanyUtil.configureParentToChild(
+                            c,
+                            parent.getTrunk() ? parent : null
+                    );
+
+                    CompanyUtil.updateCompanyBranches(c);
+                }
         );
 
-        CompanyUtil.setBasePropertiesForAllBranchesFrom(parent);
         return parent;
     }
 
-    public static Company setParentToChildCompany(Company child, Company parent) {
+    public static void configureParentToChild(Company child, Company parent) {
         child.setParent(parent);
-        return child;
+        EntityUtil.copyBaseProperties(child, parent);
     }
 
-    public static CompanyDTO buildHeadquarter(Company company) {
+    public static CompanyDTO buildDTOFrom(Company company) {
         return new CompanyDTO(
                 company.getId(),
                 company.getStatus(),
@@ -49,7 +52,7 @@ public class CompanyUtil {
                 null,
                 company.getCompanyBranches()
                         .stream()
-                        .map(CompanyUtil::buildHeadquarter)
+                        .map(CompanyUtil::buildDTOFrom)
                         .collect(Collectors.toList()),
                 company.getCustomers()
                         .stream()
@@ -58,7 +61,7 @@ public class CompanyUtil {
         );
     }
 
-    public static Company buildHeadquarter(CompanyDTO company) {
+    public static Company buildEntityFrom(CompanyDTO company) {
         return new Company(
                 company.getId(),
                 company.getStatus(),
@@ -72,7 +75,7 @@ public class CompanyUtil {
                 Optional.ofNullable(company.getCompanyBranches())
                         .orElse(new ArrayList<>())
                         .stream()
-                        .map(CompanyUtil::buildHeadquarter)
+                        .map(CompanyUtil::buildEntityFrom)
                         .collect(Collectors.toList()),
                 Optional.ofNullable(company.getCustomers())
                         .orElse(new ArrayList<>())
@@ -82,7 +85,7 @@ public class CompanyUtil {
         );
     }
 
-    public static Company buildLight(CompanyDTO company) {
+    public static Company buildLightEntityFrom(CompanyDTO company) {
         return new Company(
                 company.getId(),
                 company.getStatus(),
@@ -98,7 +101,7 @@ public class CompanyUtil {
         );
     }
 
-    public static CompanyDTO buildLight(Company company) {
+    public static CompanyDTO buildLightDTOFrom(Company company) {
         return new CompanyDTO(
                 company.getId(),
                 company.getStatus(),

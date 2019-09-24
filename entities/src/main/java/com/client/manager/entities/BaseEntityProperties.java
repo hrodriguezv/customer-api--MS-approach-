@@ -15,6 +15,9 @@ import java.time.ZonedDateTime;
 @Data
 @MappedSuperclass
 public abstract class BaseEntityProperties {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotNull
     @Enumerated(EnumType.ORDINAL)
     protected StatusDefinedValue status;
@@ -22,7 +25,4 @@ public abstract class BaseEntityProperties {
     protected ZonedDateTime createdDate;
     @NotNull
     protected ZonedDateTime updatedDate;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 }

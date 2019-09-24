@@ -19,7 +19,7 @@ public class CustomerUtil {
                 customer.getPassword(),
                 customer.getEmail(),
                 customer.getAddress(),
-                CompanyUtil.buildLight(customer.getCompany())
+                CompanyUtil.buildLightDTOFrom(customer.getCompany())
         );
     }
 
@@ -35,7 +35,7 @@ public class CustomerUtil {
                 customer.getPassword(),
                 customer.getEmail(),
                 customer.getAddress(),
-                CompanyUtil.buildLight(customer.getCompany())
+                CompanyUtil.buildLightEntityFrom(customer.getCompany())
         );
     }
 

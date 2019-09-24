@@ -1,12 +1,12 @@
 package com.client.manager.ws.rest;
 
 import com.client.manager.core.service.ICustomerService;
+import com.client.manager.core.util.BaseServiceUtil;
 import com.client.manager.entities.Customer;
 import com.client.manager.entities.dto.CustomerDTO;
 import com.client.manager.entities.util.CustomerUtil;
-import com.client.manager.entities.util.EntityUtil;
 import com.client.manager.entities.util.StatusUtil;
-import com.client.manager.ws.exception.CustomerNotFoundException;
+import com.client.manager.ws.exception.CustomerNotFoundResponseException;
 import com.client.manager.ws.util.WSUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,11 +34,11 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO getCustomer(
             @PathVariable Long customerId
-    ) throws CustomerNotFoundException {
+    ) throws CustomerNotFoundResponseException {
         return customerService
                 .findById(customerId)
                 .map(CustomerUtil::build)
-                .orElseThrow(CustomerNotFoundException::new);
+                .orElseThrow(CustomerNotFoundResponseException::new);
     }
 
     @GetMapping
@@ -52,7 +52,7 @@ public class CustomerController {
                     direction = Sort.Direction.ASC
             ) Pageable pageable
     ) {
-        Page<Customer> customerPage = customerService.find(
+        Page<Customer> customerPage = this.customerService.find(
                 Optional.ofNullable(companyId)
                         .orElse(0L),
                 Optional.ofNullable(criteria)
@@ -79,10 +79,10 @@ public class CustomerController {
     public void createCustomer(
             @RequestBody CustomerDTO customer
     ) {
-        customerService.save(
-                EntityUtil.setCreateOrUpdateBaseProperties(
-                        CustomerUtil.build(customer)
-                )
+        this.customerService.save(
+                BaseServiceUtil
+                        .<Customer>setupForCreate()
+                        .apply(() -> CustomerUtil.build(customer))
         );
     }
 
@@ -90,36 +90,25 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO updateCustomer(
             @RequestBody CustomerDTO customer
-    ) throws CustomerNotFoundException {
+    ) throws CustomerNotFoundResponseException {
         return CustomerUtil.build(
-                customerService.update(
-                        EntityUtil.setCreateOrUpdateBaseProperties(
-                                EntityUtil.copyBaseProperties(
-                                        CustomerUtil.build(
-                                                customer
-                                        ),
-                                        customerService
-                                                .findById(customer.getId())
-                                                .orElseThrow(CustomerNotFoundException::new)
-                                )
-                        )
+                this.customerService.update(
+                        BaseServiceUtil
+                                .setupForUpdate(this.customerService::findById)
+                                .apply(() -> CustomerUtil.build(customer))
                 )
         );
     }
 
     @DeleteMapping(value = "/{customerId}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerDTO deleteCustomer(
+    public void deleteCustomer(
             @PathVariable Long customerId
-    ) throws CustomerNotFoundException {
-        return CustomerUtil.build(
-                customerService.save(
-                        EntityUtil.setDeleteBaseProperties(
-                                customerService
-                                        .findById(customerId)
-                                        .orElseThrow(CustomerNotFoundException::new)
-                        )
-                )
+    ) throws CustomerNotFoundResponseException {
+        this.customerService.save(
+                BaseServiceUtil
+                        .setupForDelete(this.customerService::findById)
+                        .apply(customerId)
         );
     }
 }

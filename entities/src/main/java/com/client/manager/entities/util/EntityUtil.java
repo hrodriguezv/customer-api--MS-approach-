@@ -5,64 +5,52 @@ import com.client.manager.entities.status.StatusDefinedValue;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.util.function.Consumer;
 
 public class EntityUtil {
-    public static <T extends BaseEntityProperties> T setStatusEnabled(T t) {
-        t.setStatus(StatusDefinedValue.ENABLED);
-        return t;
+    public static void setStatusEnabled(Consumer<StatusDefinedValue> setStatus) {
+        setStatus.accept(StatusDefinedValue.ENABLED);
     }
 
-    public static <T extends BaseEntityProperties> T setStatusDisabled(T t) {
-        t.setStatus(StatusDefinedValue.DISABLED);
-        return t;
+    public static void setStatusDisabled(Consumer<StatusDefinedValue> setStatus) {
+        setStatus.accept(StatusDefinedValue.DISABLED);
     }
 
     public static ZonedDateTime getCurrentZonedDateTime() {
         return ZonedDateTime.now(ZoneId.systemDefault());
     }
 
-    public static <T extends BaseEntityProperties> T setCurrentZonedDateTimeToCreatedDate(T t) {
-        t.setCreatedDate(EntityUtil.getCurrentZonedDateTime());
+    public static void setCurrentDate(Consumer<ZonedDateTime> setDate) {
+        setDate.accept(EntityUtil.getCurrentZonedDateTime());
+    }
+
+    public static <T extends BaseEntityProperties> T applyBasePropertiesOnCreate(T t) {
+        EntityUtil.setCurrentDate(
+                t::setCreatedDate
+        );
+
+        EntityUtil.applyBasePropertiesOnUpdate(t);
         return t;
     }
 
-    public static <T extends BaseEntityProperties> T setCurrentZonedDateTimeToUpdatedDate(T t) {
-        t.setUpdatedDate(EntityUtil.getCurrentZonedDateTime());
+    public static <T extends BaseEntityProperties> T applyBasePropertiesOnUpdate(T t) {
+        EntityUtil.setStatusEnabled(
+                t::setStatus
+        );
+        EntityUtil.setCurrentDate(
+                t::setUpdatedDate
+        );
         return t;
     }
 
-    public static <T extends BaseEntityProperties> T setCreateBaseProperties(T t) {
-        return EntityUtil.setCurrentZonedDateTimeToUpdatedDate(
-                EntityUtil.setCurrentZonedDateTimeToCreatedDate(
-                        EntityUtil.setStatusEnabled(
-                                t
-                        )
-                )
+    public static <T extends BaseEntityProperties> T applyBasePropertiesOnDelete(T t) {
+        EntityUtil.setStatusDisabled(
+                t::setStatus
         );
-    }
-
-    public static <T extends BaseEntityProperties> T setUpdateBaseProperties(T t) {
-        return EntityUtil.setCurrentZonedDateTimeToUpdatedDate(
-                EntityUtil.setStatusEnabled(
-                        t
-                )
+        EntityUtil.setCurrentDate(
+                t::setUpdatedDate
         );
-    }
-
-    public static <T extends BaseEntityProperties> T setCreateOrUpdateBaseProperties(T t) {
-        return Optional.ofNullable(t.getId()).isPresent() ?
-                EntityUtil.setUpdateBaseProperties(t) :
-                EntityUtil.setCreateBaseProperties(t);
-
-    }
-
-    public static <T extends BaseEntityProperties> T setDeleteBaseProperties(T t) {
-        return EntityUtil.setCurrentZonedDateTimeToUpdatedDate(
-                EntityUtil.setStatusDisabled(
-                        t
-                )
-        );
+        return t;
     }
 
     public static <T extends BaseEntityProperties, S extends BaseEntityProperties> T copyBaseProperties(
