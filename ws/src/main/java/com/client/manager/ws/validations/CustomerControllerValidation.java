@@ -31,7 +31,7 @@ public class CustomerControllerValidation {
             Customer existingCustomer,
             Supplier<Long> countRepeatedSupplier
     ) {
-        CustomerValidation.validate(customerToUpdate);
+        CustomerValidation.validateSkipPasswordLength(customerToUpdate);
         CustomerControllerValidation.validateDuplicatedOnUpdate(customerToUpdate, existingCustomer, countRepeatedSupplier);
     }
 
@@ -39,5 +39,4 @@ public class CustomerControllerValidation {
         CustomerValidation.validate(customerToUpdate);
         CustomerControllerValidation.validateDuplicatedOnCreate(countRepeatedSupplier);
     }
-
 }

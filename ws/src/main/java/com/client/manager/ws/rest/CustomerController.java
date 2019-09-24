@@ -106,6 +106,8 @@ public class CustomerController {
                 .findById(customer.getId())
                 .orElseThrow(CustomerNotFoundException::new);
 
+        WSUtil.restoreCustomerPrivateProperties(customer, existingCustomer);
+
         CustomerControllerValidation.validateCustomer(
                 customer,
                 existingCustomer,

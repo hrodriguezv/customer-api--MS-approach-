@@ -91,4 +91,17 @@ public class CustomerValidation {
         EmailValidation.validate(customer.getEmail());
     }
 
+    public static void validateSkipPasswordLength(CustomerDTO customer) {
+        CustomerValidation.validateNameEmpty(customer);
+        CustomerValidation.validateNameLength(customer);
+        CustomerValidation.validateLastNameEmpty(customer);
+        CustomerValidation.validateLastNameLength(customer);
+        CustomerValidation.validateUsernameEmpty(customer);
+        CustomerValidation.validateUsernameLength(customer);
+        CustomerValidation.validatePasswordEmpty(customer);
+        CustomerValidation.validateCompany(customer);
+        CustomerValidation.validateAddressLength(customer);
+        EmailValidation.validate(customer.getEmail());
+    }
+
 }
