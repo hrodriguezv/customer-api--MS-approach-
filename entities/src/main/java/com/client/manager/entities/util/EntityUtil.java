@@ -65,7 +65,7 @@ public class EntityUtil {
         );
     }
 
-    public static <T extends BaseEntityProperties, S extends BaseEntityProperties> T setBaseProperties(
+    public static <T extends BaseEntityProperties, S extends BaseEntityProperties> T copyBaseProperties(
             T target, S source
     ) {
         target.setCreatedDate(source.getCreatedDate());

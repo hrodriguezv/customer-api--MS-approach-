@@ -94,7 +94,7 @@ public class CustomerController {
         return CustomerUtil.build(
                 customerService.update(
                         EntityUtil.setCreateOrUpdateBaseProperties(
-                                EntityUtil.setBaseProperties(
+                                EntityUtil.copyBaseProperties(
                                         CustomerUtil.build(
                                                 customer
                                         ),

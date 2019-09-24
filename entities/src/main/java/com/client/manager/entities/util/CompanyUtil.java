@@ -13,7 +13,7 @@ public class CompanyUtil {
 
     public static Company setBasePropertiesForAllBranchesFrom(Company company) {
         company.getCompanyBranches().forEach(c -> {
-            EntityUtil.setBaseProperties(c, company);
+            EntityUtil.copyBaseProperties(c, company);
             CompanyUtil.setBasePropertiesForAllBranchesFrom(c);
         });
         return company;

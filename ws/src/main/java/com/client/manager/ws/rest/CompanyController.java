@@ -83,7 +83,7 @@ public class CompanyController {
                 companyService.update(
                         CompanyUtil.updateCompanyBranches(
                                 EntityUtil.setCreateOrUpdateBaseProperties(
-                                        EntityUtil.setBaseProperties(
+                                        EntityUtil.copyBaseProperties(
                                                 CompanyUtil.buildHeadquarter(
                                                         company
                                                 ),
