@@ -81,16 +81,20 @@ public class CompanyController {
     public CompanyDTO updateCompany(
             @RequestBody CompanyDTO company
     ) {
+        Company existingCompany = this.companyService
+                .findById(company.getId())
+                .orElseThrow(CompanyNotFoundException::new);
+
         CompanyControllerValidation.validateCompany(
                 company,
-                this.companyService::findById,
+                existingCompany,
                 () -> this.companyService.count(company.getName().toLowerCase())
         );
 
         return CompanyUtil.buildDTOFrom(
                 this.companyService.update(
                         CompanyServiceUtil
-                                .setupForUpdate(this.companyService::findById)
+                                .setupForUpdate(existingCompany)
                                 .apply(company)
                 )
         );
@@ -101,9 +105,13 @@ public class CompanyController {
     public void deleteCompany(
             @PathVariable Long companyId
     ) {
+        Company existingCompany = this.companyService
+                .findById(companyId)
+                .orElseThrow(CompanyNotFoundException::new);
+
         this.companyService.save(
                 CompanyServiceUtil
-                        .setupForDelete(this.companyService::findById)
+                        .setupForDelete(existingCompany)
                         .apply(companyId)
         );
     }

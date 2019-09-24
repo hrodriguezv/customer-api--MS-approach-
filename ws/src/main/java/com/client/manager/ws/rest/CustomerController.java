@@ -7,6 +7,7 @@ import com.client.manager.entities.Customer;
 import com.client.manager.entities.dto.CustomerDTO;
 import com.client.manager.entities.util.CustomerUtil;
 import com.client.manager.entities.util.StatusUtil;
+import com.client.manager.ws.security.SecurityUtil;
 import com.client.manager.ws.util.WSUtil;
 import com.client.manager.ws.validations.CustomerControllerValidation;
 import org.springframework.data.domain.Page;
@@ -85,10 +86,14 @@ public class CustomerController {
                 () -> this.customerService.count(customer.getUsername())
         );
 
+        SecurityUtil.encryptPassword(customer);
+
+        Customer customerToCreate = CustomerUtil.buildEntityFrom(customer);
+
         this.customerService.save(
                 BaseServiceUtil
                         .<Customer>setupForCreate()
-                        .apply(() -> CustomerUtil.buildEntityFrom(customer))
+                        .apply(customerToCreate)
         );
     }
 
@@ -97,17 +102,23 @@ public class CustomerController {
     public CustomerDTO updateCustomer(
             @RequestBody CustomerDTO customer
     ) {
+        Customer existingCustomer = this.customerService
+                .findById(customer.getId())
+                .orElseThrow(CustomerNotFoundException::new);
+
         CustomerControllerValidation.validateCustomer(
                 customer,
-                this.customerService::findById,
+                existingCustomer,
                 () -> this.customerService.count(customer.getUsername())
         );
+
+        Customer customerToUpdate = CustomerUtil.buildEntityFrom(customer);
 
         return CustomerUtil.buildDTOFrom(
                 this.customerService.update(
                         BaseServiceUtil
-                                .setupForUpdate(this.customerService::findById)
-                                .apply(() -> CustomerUtil.buildEntityFrom(customer))
+                                .setupForUpdate(existingCustomer)
+                                .apply(customerToUpdate)
                 )
         );
     }
@@ -117,10 +128,14 @@ public class CustomerController {
     public void deleteCustomer(
             @PathVariable Long customerId
     ) {
+        Customer existingCustomer = this.customerService
+                .findById(customerId)
+                .orElseThrow(CustomerNotFoundException::new);
+
         this.customerService.save(
                 BaseServiceUtil
-                        .setupForDelete(this.customerService::findById)
-                        .apply(customerId)
+                        .setupForDelete(existingCustomer)
+                        .get()
         );
     }
 }

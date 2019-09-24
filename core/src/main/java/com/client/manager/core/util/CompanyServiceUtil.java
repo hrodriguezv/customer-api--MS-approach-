@@ -7,7 +7,6 @@ import com.client.manager.entities.dto.CompanyDTO;
 import com.client.manager.entities.util.CompanyUtil;
 import com.client.manager.entities.util.EntityUtil;
 
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -19,27 +18,27 @@ public class CompanyServiceUtil {
         return () -> CompanyUtil.updateCompanyBranches(
                 BaseServiceUtil
                         .<Company>setupForCreate()
-                        .apply(() -> CompanyUtil.buildEntityFrom(companyDTO))
+                        .apply(CompanyUtil.buildEntityFrom(companyDTO))
         );
     }
 
     public static Function<CompanyDTO, Company> setupForUpdate(
-            Function<Long, Optional<Company>> findById
-    ) throws CompanyNotFoundException {
+            Company companyToUpdate
+    ) {
         return (companyDTO) -> CompanyUtil.updateCompanyBranches(
                 BaseServiceUtil
-                        .setupForUpdate(findById)
-                        .apply(() -> CompanyUtil.buildEntityFrom(companyDTO))
+                        .setupForUpdate(companyToUpdate)
+                        .apply(CompanyUtil.buildEntityFrom(companyDTO))
         );
     }
 
     public static Function<Long, Company> setupForDelete(
-            Function<Long, Optional<Company>> findById
-    ) throws CompanyNotFoundException {
+            Company companyToDelete
+    ) {
         return (companyId) -> CompanyUtil.copyBasePropertiesForAllBranchesFrom(
                 BaseServiceUtil
-                        .setupForDelete(findById)
-                        .apply(companyId)
+                        .setupForDelete(companyToDelete)
+                        .get()
         );
     }
 
