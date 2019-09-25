@@ -27,10 +27,10 @@
                 <td><input type="text" th:field="*{address}" maxlength="150"/></td>
             </tr>
             <tr>
-                <td></td>
+                <td>Select a Company</td>
                 <td>
                     <select th:field="*{company.id}">
-                        <option value="">Select a Company</option>
+                        <option value="">None</option>
                         <option th:each="company : ${companies}"
                                 th:value="${company.id}"
                                 th:text="${company.name}"></option>
