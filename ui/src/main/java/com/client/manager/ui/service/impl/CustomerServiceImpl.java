@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
@@ -21,11 +21,11 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
-    private final RestTemplate restTemplate;
+    private final OAuth2RestTemplate userPasswordRestTemplate;
     private final Environment environment;
 
-    public CustomerServiceImpl(RestTemplate restTemplate, Environment environment) {
-        this.restTemplate = restTemplate;
+    public CustomerServiceImpl(OAuth2RestTemplate userPasswordRestTemplate, Environment environment) {
+        this.userPasswordRestTemplate = userPasswordRestTemplate;
         this.environment = environment;
     }
 
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements ICustomerService {
         Map<String, String> uriParams = new HashMap<>();
         uriParams.put("customerId", String.valueOf(customerId));
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.buildAndExpand(uriParams).toUri(),
                 HttpMethod.GET,
                 null,
@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements ICustomerService {
         Optional.ofNullable(pageable)
                 .ifPresent(p -> UIUtil.setPageableParameters(p, uriComponentsBuilder));
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.build().toUri(),
                 HttpMethod.GET,
                 null,
@@ -85,7 +85,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
         HttpEntity<CustomerDTO> requestEntity = new HttpEntity<>(customerDTO);
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.build().toUri(),
                 HttpMethod.PUT,
                 requestEntity,
@@ -103,7 +103,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
         HttpEntity<CustomerDTO> requestEntity = new HttpEntity<>(customerDTO);
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.build().toUri(),
                 HttpMethod.POST,
                 requestEntity,
@@ -122,7 +122,7 @@ public class CustomerServiceImpl implements ICustomerService {
         Map<String, String> uriParams = new HashMap<>();
         uriParams.put("customerId", String.valueOf(customerId));
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.buildAndExpand(uriParams).toUri(),
                 HttpMethod.DELETE,
                 null,

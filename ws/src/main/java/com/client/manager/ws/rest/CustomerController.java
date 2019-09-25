@@ -14,6 +14,7 @@ import com.client.manager.ws.validations.CustomerControllerValidation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,9 +25,11 @@ import java.util.stream.Collectors;
 public class CustomerController {
 
     private final ICustomerService customerService;
+    private final PasswordEncoder encoder;
 
-    public CustomerController(ICustomerService customerService) {
+    public CustomerController(ICustomerService customerService, PasswordEncoder encoder) {
         this.customerService = customerService;
+        this.encoder = encoder;
     }
 
     @GetMapping(value = "/{customerId}")
@@ -83,7 +86,7 @@ public class CustomerController {
                 () -> this.customerService.count(customer.getUsername())
         );
 
-        SecurityUtil.encryptPassword(customer);
+        SecurityUtil.encryptPassword(customer, this.encoder);
 
         Customer customerToCreate = CustomerUtil.buildEntityFrom(customer);
 

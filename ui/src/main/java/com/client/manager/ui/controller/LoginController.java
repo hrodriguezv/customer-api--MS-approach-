@@ -6,21 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
-public class IndexController {
+@RequestMapping("/login")
+public class LoginController {
 
-
-    public IndexController() {
-
+    public LoginController(
+    ) {
     }
 
     @GetMapping
-    public String showEntryPoint(final Model model) {
-        return "index";
-    }
-
-    @GetMapping("/index")
-    public String showIndex(final Model model) {
-        return "index";
+    public String showLoginPage(final Model model) {
+        return "login";
     }
 }

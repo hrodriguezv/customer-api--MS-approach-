@@ -39,7 +39,7 @@ autoapprove VARCHAR(256)
 drop table IF EXISTS oauth_client_token;
 create TABLE oauth_client_token (
 token_id VARCHAR(256),
-token BYTEA,
+token CLOB,
 authentication_id VARCHAR(256),
 user_name VARCHAR(256),
 client_id VARCHAR(256)
@@ -48,25 +48,25 @@ client_id VARCHAR(256)
 drop table IF EXISTS oauth_access_token;
 create TABLE oauth_access_token (
 token_id VARCHAR(256),
-token BYTEA,
+token CLOB,
 authentication_id VARCHAR(256) NOT NULL DEFAULT '',
 user_name VARCHAR(256),
 client_id VARCHAR(256),
-authentication BYTEA,
+authentication CLOB,
 refresh_token VARCHAR(256)
 );
 
 drop table IF EXISTS oauth_refresh_token;
 create TABLE oauth_refresh_token (
 token_id VARCHAR(256),
-token BYTEA,
-authentication BYTEA
+token CLOB,
+authentication CLOB
 );
 
 drop table IF EXISTS oauth_code;
 create TABLE oauth_code (
 code VARCHAR(256),
-authentication BYTEA
+authentication CLOB
 );
 
 drop table IF EXISTS oauth_approvals;
@@ -110,5 +110,5 @@ insert into company (id, status, created_date, updated_date, name, description, 
   (2, 1, '2019-09-24', '2019-09-24', 'Nissan Dominicana', 'Jeepetas', 'La Vega, República Dominicana', false, 1);
 
 insert into user (id, status, created_date, updated_date, username, password, roles, company_id) values
-  (1, 1, '2019-09-24', '2019-09-24', 'pedro', '$e0801$QeuYaP+8n+C2+IXfEHeXDg3WqpSQipBDDtnZWIPKwHxL6cU5KN+8+XTnKp5/PRIyJF6p96vSkrsZ7tQHaa+MRw==$yzftjS3j489njcdobUtFgsE2yOfHftE3/LUrrK+9buw=', 'ROLE_ADMIN,ROLE_USER', 1),
-  (2, 1, '2019-09-24', '2019-09-24', 'juan', '$e0801$QeuYaP+8n+C2+IXfEHeXDg3WqpSQipBDDtnZWIPKwHxL6cU5KN+8+XTnKp5/PRIyJF6p96vSkrsZ7tQHaa+MRw==$yzftjS3j489njcdobUtFgsE2yOfHftE3/LUrrK+9buw=', 'ROLE_USER', 1);
+  (1, 1, '2019-09-24', '2019-09-24', 'pedro', '$e0801$YF25nIj+65Epp5wpIErCexNxg9X1l0axnpGbe7skrlgX5fpIN2PqDtf9XhuuK3hXcWtIEgOrCSzorf7oyEFqZg==$vnXFNsfzlEvdm/BwjS5+MqORYE9oqpx5/vui+tO2zzA=', 'ROLE_ADMIN,ROLE_USER', 1),
+  (2, 1, '2019-09-24', '2019-09-24', 'juan', '$e0801$YF25nIj+65Epp5wpIErCexNxg9X1l0axnpGbe7skrlgX5fpIN2PqDtf9XhuuK3hXcWtIEgOrCSzorf7oyEFqZg==$vnXFNsfzlEvdm/BwjS5+MqORYE9oqpx5/vui+tO2zzA=', 'ROLE_USER', 1);

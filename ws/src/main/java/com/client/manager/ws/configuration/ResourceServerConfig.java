@@ -33,8 +33,23 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         setAccessDeniedHandler(http);
 
+        freeH2Resources(http);
+
+        secureUserResource(http);
         secureCustomerResource(http);
         secureCompanyResource(http);
+    }
+
+    public void freeH2Resources(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/h2-console")
+                .permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/h2-console/**")
+                .permitAll();
+        http.headers().frameOptions().disable();
     }
 
     public void setAccessDeniedHandler(HttpSecurity http) throws Exception {
@@ -45,6 +60,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void secureUserResource(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/user/login")
+                .access(SECURED_READ_SCOPE)
                 .antMatchers(HttpMethod.GET, "/user/{username}")
                 .access(SECURED_READ_SCOPE);
     }
@@ -95,7 +112,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/company")
                 .access(SECURED_READ_SCOPE +
                         " and hasAnyRole(" +
-                        "'" + RoleDefinedValue.ROLE_ADMIN.name() + "'" +
+                        "'" + RoleDefinedValue.ROLE_ADMIN.name() + "'," +
+                        "'" + RoleDefinedValue.ROLE_USER.name() + "'" +
                         ")"
                 )
                 .antMatchers(HttpMethod.GET, "/company/{companyId}")

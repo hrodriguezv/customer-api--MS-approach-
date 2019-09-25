@@ -1,9 +1,8 @@
-package com.client.manager.ws.security;
+package com.client.manager.ui.security;
 
-import com.client.manager.entities.dto.CustomerDTO;
+import com.client.manager.entities.dto.UserDTO;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,17 +12,8 @@ public class SecurityUtil {
     private SecurityUtil() {
     }
 
-    public static String encryptPassword(String password, PasswordEncoder encoder) {
-        return encoder.encode(password);
-    }
-
-    public static CustomerDTO encryptPassword(CustomerDTO customer, PasswordEncoder encoder) {
-        customer.setPassword(SecurityUtil.encryptPassword(customer.getPassword(), encoder));
-        return customer;
-    }
-
-    public static User buildSecurityUserFrom(com.client.manager.entities.User user) {
-        return new org.springframework.security.core.userdetails.User(
+    public static User buildSecurityUserFrom(UserDTO user) {
+        return new User(
                 user.getUsername(),
                 user.getPassword(),
                 SecurityUtil.convertSimpleGrantedAuthorityFrom(user.getRoles())

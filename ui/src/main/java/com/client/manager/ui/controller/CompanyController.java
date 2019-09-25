@@ -9,10 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -31,21 +28,21 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @RequestMapping("/delete/{companyId}")
+    @GetMapping("/delete/{companyId}")
     public String deleteCompany(@PathVariable Long companyId) {
         this.companyService.deleteById(companyId);
 
         return "redirect:/company/list";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PostMapping(value = "/update")
     public String updateCompany(@ModelAttribute("company") CompanyDTO company) {
         this.companyService.update(company);
 
         return "redirect:/company/list";
     }
 
-    @RequestMapping("/edit/{companyId}")
+    @GetMapping("/edit/{companyId}")
     public ModelAndView showEditCompanyPage(@PathVariable Long companyId) {
         ModelAndView mav = new ModelAndView("company-edit");
         CompanyDTO company = this.companyService.getById(companyId).getBody();
@@ -69,14 +66,14 @@ public class CompanyController {
         return mav;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public String saveCompany(@ModelAttribute("company") CompanyDTO company) {
         this.companyService.save(company);
 
         return "redirect:/company/list";
     }
 
-    @RequestMapping("/new")
+    @GetMapping("/new")
     public String showCompanyNewPage(Model model) {
         CompanyDTO company = new CompanyDTO(new CompanyDTO());
         PageDTO<CompanyDTO> companyPage = this.companyService
@@ -95,7 +92,7 @@ public class CompanyController {
         return "company-new";
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String showCompanyListPage(
             @PageableDefault(
                     sort = "id",

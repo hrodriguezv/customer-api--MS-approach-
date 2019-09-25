@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
@@ -21,11 +21,11 @@ import java.util.Optional;
 @Service
 public class CompanyServiceImpl implements ICompanyService {
 
-    private final RestTemplate restTemplate;
+    private final OAuth2RestTemplate userPasswordRestTemplate;
     private final Environment environment;
 
-    public CompanyServiceImpl(RestTemplate restTemplate, Environment environment) {
-        this.restTemplate = restTemplate;
+    public CompanyServiceImpl(OAuth2RestTemplate userPasswordRestTemplate, Environment environment) {
+        this.userPasswordRestTemplate = userPasswordRestTemplate;
         this.environment = environment;
     }
 
@@ -39,7 +39,7 @@ public class CompanyServiceImpl implements ICompanyService {
         Map<String, String> uriParams = new HashMap<>();
         uriParams.put("companyId", String.valueOf(companyId));
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.buildAndExpand(uriParams).toUri(),
                 HttpMethod.GET,
                 null,
@@ -59,7 +59,7 @@ public class CompanyServiceImpl implements ICompanyService {
         Optional.ofNullable(pageable)
                 .ifPresent(p -> UIUtil.setPageableParameters(p, uriComponentsBuilder));
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.build().toUri(),
                 HttpMethod.GET,
                 null,
@@ -77,7 +77,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
         HttpEntity<CompanyDTO> requestEntity = new HttpEntity<>(companyDTO);
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.build().toUri(),
                 HttpMethod.PUT,
                 requestEntity,
@@ -95,7 +95,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
         HttpEntity<CompanyDTO> requestEntity = new HttpEntity<>(companyDTO);
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.build().toUri(),
                 HttpMethod.POST,
                 requestEntity,
@@ -114,7 +114,7 @@ public class CompanyServiceImpl implements ICompanyService {
         Map<String, String> uriParams = new HashMap<>();
         uriParams.put("companyId", String.valueOf(companyId));
 
-        return this.restTemplate.exchange(
+        return this.userPasswordRestTemplate.exchange(
                 uriComponentsBuilder.buildAndExpand(uriParams).toUri(),
                 HttpMethod.DELETE,
                 null,

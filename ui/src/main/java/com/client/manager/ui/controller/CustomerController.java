@@ -32,21 +32,21 @@ public class CustomerController {
         this.companyService = companyService;
     }
 
-    @RequestMapping("/delete/{customerId}")
+    @GetMapping("/delete/{customerId}")
     public String deleteCustomer(@PathVariable Long customerId) {
         this.customerService.deleteById(customerId);
 
         return "redirect:/customer/list";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PostMapping(value = "/update")
     public String updateCustomer(@ModelAttribute("customer") CustomerDTO customer) {
         this.customerService.update(customer);
 
         return "redirect:/customer/list";
     }
 
-    @RequestMapping("/edit/{customerId}")
+    @GetMapping("/edit/{customerId}")
     public ModelAndView showEditCustomerPage(@PathVariable Long customerId) {
         ModelAndView mav = new ModelAndView("customer-edit");
         CustomerDTO customer = this.customerService.getById(customerId).getBody();
@@ -67,14 +67,14 @@ public class CustomerController {
         return mav;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public String saveCustomer(@ModelAttribute("customer") CustomerDTO customer) {
         this.customerService.save(customer);
 
         return "redirect:/customer/list";
     }
 
-    @RequestMapping("/new")
+    @GetMapping("/new")
     public String showCustomerNewPage(Model model) {
         CustomerDTO customer = new CustomerDTO();
         PageDTO<CompanyDTO> companyPage = this.companyService
@@ -93,7 +93,7 @@ public class CustomerController {
         return "customer-new";
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String showCustomerListPage(
             @RequestParam(required = false) Long companyId,
             @RequestParam(required = false) String status,
