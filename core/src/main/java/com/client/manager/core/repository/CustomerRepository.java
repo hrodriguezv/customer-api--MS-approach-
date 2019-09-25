@@ -13,6 +13,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             value = "SELECT " +
                     "cu " +
                     "FROM Customer cu " +
+                    "JOIN cu.company co " +
                     "WHERE " +
                     "( " +
                     "CAST(?1 as string) = '0' " +

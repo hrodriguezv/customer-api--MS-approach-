@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>Client Manager</title>
+</head>
+<body>
+<a th:href="@{/customer/new}">Create New Customer</a>
+
+
+<form action="#" th:action="@{/customer/list}" method="get">
+    <table>
+        <tr>
+            <td>Criteria:</td>
+            <td><input type="text" name="criteria" th:value="${param.criteria}"/></td>
+        </tr>
+        <tr>
+            <td>Status:</td>
+            <td>
+                <select name="status">
+                    <option value=""
+                            th:selected="${param.status == null or #strings.equals(param.status, '') or #strings.equals(param.status, 'ALL')}">
+                        ALL
+                    </option>
+                    <option
+                            value="ENABLED"
+                            th:selected="${#strings.equals(param.status, 'ENABLED')}">
+                        ENABLED
+                    </option>
+                    <option
+                            value="DISABLED"
+                            th:selected="${#strings.equals(param.status, 'DISABLED')}">
+                        DISABLED
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Company</td>
+            <td>
+                <select name="companyId" th:value="${param.companyId}">
+                    <option value=""
+                            th:selected="${param.companyId == null or #strings.equals(param.companyId)}">
+                        ALL
+                    </option>
+                    <option th:each="company : ${companies}"
+                            th:selected="${#strings.equals(param.companyId, company.id)}"
+                            th:value="${company.id}"
+                            th:text="${company.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Search</button>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{/customer/list(sort=${'id,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Customer ID'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'name,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Name'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'lastName,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Last Name'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'username,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Username'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'email,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Email'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'company.name,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Company Name'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'createdDate,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Created Date'"></a>
+            </th>
+            <th>
+                <a th:href="@{/customer/list(sort=${'status,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+                   th:text="'Status'"></a>
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customerPage.content}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.lastName}"></td>
+            <td th:text="${customer.username}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.company.name}"></td>
+            <td th:text="${#dates.format(customer.createdDateAsDate, 'dd/MM/yyyy')}"></td>
+            <td th:text="${customer.status}"></td>
+            <td><a th:if="${customer.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/customer/edit/' + ${customer.id}}">Edit</a></td>
+            <td><a th:if="${customer.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/customer/delete/' + ${customer.id}}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:if="${param.page != null and not #strings.isEmpty(param.page) and #conversions.convert(param.page, 'java.lang.Long') - 1 &gt; 0}"
+       th:href="@{/customer/list(sort=${param.sort}, size=${customerPage.size}, page=${#conversions.convert(param.page, 'java.lang.Long') - 1}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+       th:text="Prev."></a>
+    <div th:if="${customerPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/customer/list(sort=${param.sort}, size=${customerPage.size}, page=${pageNumber}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+           th:text=${pageNumber}></a>
+    </div>
+    <a th:if="${((param.page == null or #strings.isEmpty(param.page)) and customerPage.totalPages > 1) or (param.page != null and not #strings.isEmpty(param.page) and #conversions.convert(param.page, 'java.lang.Long') &lt; customerPage.totalPages)}"
+       th:href="@{/customer/list(sort=${param.sort}, size=${customerPage.size}, page=${param.page == null ? 2 : #conversions.convert(param.page, 'java.lang.Long') + 1}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
+       th:text="'Next'"></a>
+</form>
+
+</body>
+</html>
