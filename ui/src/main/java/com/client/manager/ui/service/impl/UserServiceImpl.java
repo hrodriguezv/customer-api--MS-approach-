@@ -42,22 +42,4 @@ public class UserServiceImpl implements IUserService {
                 }
         );
     }
-
-    @Override
-    public ResponseEntity<UserDTO> login(String username, String password) {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
-                .fromUriString(
-                        this.environment.getProperty("ws.user.login.endpoint")
-                )
-                .queryParam("username", username)
-                .queryParam("password", password);
-
-        return this.clientCredentialsRestTemplate.exchange(
-                uriComponentsBuilder.build().toUri(),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<UserDTO>() {
-                }
-        );
-    }
 }

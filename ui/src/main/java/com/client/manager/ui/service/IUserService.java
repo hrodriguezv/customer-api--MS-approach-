@@ -5,6 +5,4 @@ import org.springframework.http.ResponseEntity;
 
 public interface IUserService {
     ResponseEntity<UserDTO> findByUsername(String username);
-
-    ResponseEntity<UserDTO> login(String username, String password);
 }

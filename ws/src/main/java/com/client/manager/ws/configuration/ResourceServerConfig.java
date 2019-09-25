@@ -60,8 +60,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void secureUserResource(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/user/login")
-                .access(SECURED_READ_SCOPE)
                 .antMatchers(HttpMethod.GET, "/user/{username}")
                 .access(SECURED_READ_SCOPE);
     }
