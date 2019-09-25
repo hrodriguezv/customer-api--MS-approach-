@@ -87,4 +87,15 @@ Las mayorías de las funciones se desarrollaron para que sean unícas e independ
 * Las conversiones de una entidad a otra se encuentran bajo el folder de **/util**. También se manejan operaciones básicas con las entidades tales como: setear los estados, las fechas de creación y actualización se encuentra bajo este folder también.
 * La definición de los estados y los roles se encuentran definidas bajo **/status** y **/role** respectivamente.
 * La definición de las excepciones que puede generar cada entidad se encuentra en el folder **/exceptions**.
+
 ### Core
+* Las excepciones que se generan por algún fallo en alguna operación entre las entidades y la base de datos, se alojan bajo el folder **/exceptions**.
+* Todos los repositorios se encuentran en el folder **/repository**.
+* Todos los servicios que sirven de puente de comunicación con los repositios, y abstracción de las operacioines de las entidades en la base de datos se encuentran en el folder **/service**.
+* Todas las utilerías necesitadas para realizar correctamente las operaciones de persistir información en la base de datos se encuentran en el folder **/util**.
+
+### WS
+* Las configuraciones hechas en el momento de incio de la aplicación de Spring Boot se encuentran en el foldr **/configuration**. Aquí se puede ver la configuración de seguridad, protección de los recursos expuestos, la configuración del token JWT y el servicio de búsqueda de usuario  por su nombre de usuario con el fin ofrecerlo a authentication provider de spring.
+* La configuración de como reaccionan los servicios rest ante una excepción para devolver un body personalizado se encuentra en el folder **/exception**. Cualquier otro file que necesite crearse con respecto al manejo de excepciones en el WS iría aquí.
+* Todos los controladores que configuran los endpoints del WS se encuentran bajo el folder **/rest**.
+* Todas las utilerías necesitadas para realizar correctamente el intercambio de información entre el cliente y el servidor se encuentran bajo el **/util**.
