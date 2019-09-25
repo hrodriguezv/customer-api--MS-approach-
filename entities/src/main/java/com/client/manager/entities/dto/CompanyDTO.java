@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,6 +23,7 @@ public class CompanyDTO extends BaseDTOProperties {
     private CompanyDTO parent;
     private List<CompanyDTO> companyBranches = new ArrayList<>();
     private List<CustomerDTO> customers = new ArrayList<>();
+    private List<UserDTO> users = new ArrayList<>();
 
     public CompanyDTO(
             Long id,
@@ -35,7 +35,8 @@ public class CompanyDTO extends BaseDTOProperties {
             Boolean trunk,
             CompanyDTO parent,
             List<CompanyDTO> companyBranches,
-            List<CustomerDTO> customers
+            List<CustomerDTO> customers,
+            List<UserDTO> users
     ) {
         super(id, status, createdDate, updatedDate);
         this.name = name;
@@ -45,23 +46,10 @@ public class CompanyDTO extends BaseDTOProperties {
         this.parent = parent;
         this.companyBranches = companyBranches;
         this.customers = customers;
+        this.users = users;
     }
 
     public CompanyDTO(CompanyDTO parent) {
         this.parent = parent;
-    }
-
-    public Date getCreatedDateAsDate() {
-        if (this.createdDate == null) {
-            return null;
-        }
-        return Date.from(this.createdDate.toInstant());
-    }
-
-    public Date getUpdatedDateAsDate() {
-        if (this.updatedDate == null) {
-            return null;
-        }
-        return Date.from(this.updatedDate.toInstant());
     }
 }

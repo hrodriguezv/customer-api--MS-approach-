@@ -30,8 +30,10 @@ public class Company extends BaseEntityProperties {
     private Company parent;
     @OneToMany(mappedBy = "parent")
     private List<Company> companyBranches = new ArrayList<>();
-    @OneToMany
+    @OneToMany(mappedBy = "company")
     private List<Customer> customers = new ArrayList<>();
+    @OneToMany(mappedBy = "company")
+    private List<User> users = new ArrayList<>();
 
     public Company(
             Long id,
@@ -44,7 +46,8 @@ public class Company extends BaseEntityProperties {
             Boolean trunk,
             Company parent,
             List<Company> companyBranches,
-            List<Customer> customers
+            List<Customer> customers,
+            List<User> users
     ) {
         super(id, status, createdDate, updatedDate);
         this.name = name;
@@ -54,5 +57,6 @@ public class Company extends BaseEntityProperties {
         this.parent = parent;
         this.companyBranches = companyBranches;
         this.customers = customers;
+        this.users = users;
     }
 }

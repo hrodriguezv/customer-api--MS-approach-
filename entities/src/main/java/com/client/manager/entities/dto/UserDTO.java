@@ -14,36 +14,26 @@ import java.time.ZonedDateTime;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CustomerDTO extends BaseDTOProperties {
-    private String name;
-    private String lastName;
+public class UserDTO extends BaseDTOProperties {
+    private String roles;
     private String username;
     private String password;
-    private String email;
-    private String address;
     private CompanyDTO company = new CompanyDTO();
 
-
-    public CustomerDTO(
+    public UserDTO(
             Long id,
             StatusDefinedValue status,
             ZonedDateTime createdDate,
             ZonedDateTime updatedDate,
-            String name,
-            String lastName,
+            String roles,
             String username,
             String password,
-            String email,
-            String address,
             CompanyDTO company
     ) {
         super(id, status, createdDate, updatedDate);
-        this.name = name;
-        this.lastName = lastName;
+        this.roles = roles;
         this.username = username;
         this.password = password;
-        this.email = email;
-        this.address = address;
         this.company = company;
     }
 }

@@ -6,11 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(
-        exclude = {
-                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-        }
-)
+@SpringBootApplication
 @EnableJpaRepositories(basePackages = {"com.client.manager.core"})
 @ComponentScan(basePackages = {"com.client.manager.ws", "com.client.manager.core", "com.client.manager.entities"})
 @EntityScan(basePackages = {"com.client.manager.entities"})

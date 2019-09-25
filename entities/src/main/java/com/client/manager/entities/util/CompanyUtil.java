@@ -57,6 +57,10 @@ public class CompanyUtil {
                 company.getCustomers()
                         .stream()
                         .map(CustomerUtil::buildLightDTOFrom)
+                        .collect(Collectors.toList()),
+                company.getUsers()
+                        .stream()
+                        .map(UserUtil::buildLightDTOFrom)
                         .collect(Collectors.toList())
         );
     }
@@ -81,6 +85,11 @@ public class CompanyUtil {
                         .orElse(new ArrayList<>())
                         .stream()
                         .map(CustomerUtil::buildLightEntityFrom)
+                        .collect(Collectors.toList()),
+                Optional.ofNullable(company.getUsers())
+                        .orElse(new ArrayList<>())
+                        .stream()
+                        .map(UserUtil::buildLightEntityFrom)
                         .collect(Collectors.toList())
         );
     }
@@ -95,6 +104,7 @@ public class CompanyUtil {
                 company.getDescription(),
                 company.getAddress(),
                 company.getTrunk(),
+                null,
                 null,
                 null,
                 null
@@ -112,6 +122,7 @@ public class CompanyUtil {
                 company.getAddress(),
                 company.getTrunk(),
                 null,
+                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
         );
