@@ -21,8 +21,7 @@ public class SecurityUtil {
     }
 
     public static List<SimpleGrantedAuthority> convertSimpleGrantedAuthorityFrom(String roles) {
-        return Arrays.asList(roles.split(","))
-                .stream()
+        return Arrays.stream(roles.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
