@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableAutoConfiguration(
@@ -17,8 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                 HibernateJpaAutoConfiguration.class
         }
 )
-@EnableWebMvc
-public class UIApplication implements WebMvcConfigurer {
+public class UIApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UIApplication.class, args);

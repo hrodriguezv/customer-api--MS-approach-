@@ -3,16 +3,18 @@
 <head>
     <meta charset="utf-8"/>
     <title>Client Manager</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h1>View Companies</h1>
-<br/>
-<a th:href="@{/index}">Go to Index</a>
-<a th:href="@{/company/new}">Create New Company</a>
 
-<form action="#" th:action="@{/company/list}" method="get">
+<div class="nav-box">
+    <a th:href="@{/index}">Go to Index</a>
+    <a th:href="@{/company/new}">Create New Company</a>
+</div>
 
-    <table>
+<form action="#" th:action="@{/company/list}" method="get" class="search-form">
+    <table class="datatable">
         <thead>
         <tr>
             <th>
@@ -39,7 +41,7 @@
                 <a th:href="@{/company/list(sort=${'status,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
                    th:text="'Status'"></a>
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -50,10 +52,12 @@
             <td th:text="${company.address}"></td>
             <td th:text="${#dates.format(company.createdDateAsDate, 'dd/MM/yyyy')}"></td>
             <td th:text="${company.status}"></td>
-            <td><a th:if="${company.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
-                   th:href="@{'/company/edit/' + ${company.id}}">Edit</a></td>
-            <td><a th:if="${company.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
-                   th:href="@{'/company/delete/' + ${company.id}}">Delete</a></td>
+            <td>
+                <a th:if="${company.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/company/edit/' + ${company.id}}">Edit</a>
+                <a th:if="${company.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/company/delete/' + ${company.id}}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>

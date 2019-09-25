@@ -3,13 +3,15 @@
 <head>
     <meta charset="utf-8"/>
     <title>Client Manager</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h1>
     Welcome to the Client Manager App!
 </h1>
-<br/>
-<a th:href="@{/company/list}">Go to View Companies</a>
-<a th:href="@{/customer/list}">Go to View Customers</a>
+<div class="nav-box">
+    <a th:href="@{/company/list}">Go to View Companies</a>
+    <a th:href="@{/customer/list}">Go to View Customers</a>
+</div>
 </body>
 </html>

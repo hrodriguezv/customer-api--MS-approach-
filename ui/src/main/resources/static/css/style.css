@@ -1,0 +1,35 @@
+.datatable {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.datatable, .datatable th, .datatable td {
+  border: 1px solid black;
+}
+
+.datatable th, .datatable td {
+  padding: 6px;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-submit {
+    padding: 7px 44px;
+    margin: 10px 0px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-box {
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+}

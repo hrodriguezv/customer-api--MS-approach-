@@ -3,15 +3,17 @@
 <head>
     <meta charset="utf-8"/>
     <title>Client Manager</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h1>View Customers</h1>
-<br/>
-<a th:href="@{/index}">Go to Index</a>
-<a th:href="@{/customer/new}">Create New Customer</a>
 
+<div class="nav-box">
+    <a th:href="@{/index}">Go to Index</a>
+    <a th:href="@{/customer/new}">Create New Customer</a>
+</div>
 
-<form action="#" th:action="@{/customer/list}" method="get">
+<form action="#" th:action="@{/customer/list}" method="get" class="search-form">
     <table>
         <tr>
             <td>Criteria:</td>
@@ -54,13 +56,14 @@
             </td>
         </tr>
         <tr>
+            <td></td>
             <td>
-                <button type="submit">Search</button>
+                <button class="btn-submit" type="submit">Search</button>
             </td>
         </tr>
     </table>
 
-    <table>
+    <table class="datatable">
         <thead>
         <tr>
             <th>
@@ -95,7 +98,7 @@
                 <a th:href="@{/customer/list(sort=${'status,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${customerPage.size}, page=${param.page}, criteria=${param.criteria}, status=${param.status}, companyId=${param.companyId})}"
                    th:text="'Status'"></a>
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -108,10 +111,12 @@
             <td th:text="${customer.company.name}"></td>
             <td th:text="${#dates.format(customer.createdDateAsDate, 'dd/MM/yyyy')}"></td>
             <td th:text="${customer.status}"></td>
-            <td><a th:if="${customer.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
-                   th:href="@{'/customer/edit/' + ${customer.id}}">Edit</a></td>
-            <td><a th:if="${customer.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
-                   th:href="@{'/customer/delete/' + ${customer.id}}">Delete</a></td>
+            <td>
+                <a th:if="${customer.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/customer/edit/' + ${customer.id}}">Edit</a>
+                <a th:if="${customer.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/customer/delete/' + ${customer.id}}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>
