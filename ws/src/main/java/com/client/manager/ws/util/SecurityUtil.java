@@ -1,4 +1,4 @@
-package com.client.manager.ws.security;
+package com.client.manager.ws.util;
 
 import com.client.manager.entities.dto.CustomerDTO;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

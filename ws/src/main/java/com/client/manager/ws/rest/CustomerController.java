@@ -8,7 +8,7 @@ import com.client.manager.entities.dto.CustomerDTO;
 import com.client.manager.entities.dto.PageDTO;
 import com.client.manager.entities.util.CustomerUtil;
 import com.client.manager.entities.util.StatusUtil;
-import com.client.manager.ws.security.SecurityUtil;
+import com.client.manager.ws.util.SecurityUtil;
 import com.client.manager.ws.util.WSUtil;
 import com.client.manager.ws.validations.CustomerControllerValidation;
 import org.springframework.data.domain.Page;

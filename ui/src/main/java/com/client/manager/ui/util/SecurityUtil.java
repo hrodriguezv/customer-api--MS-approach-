@@ -1,4 +1,4 @@
-package com.client.manager.ui.security;
+package com.client.manager.ui.util;
 
 import com.client.manager.entities.dto.UserDTO;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

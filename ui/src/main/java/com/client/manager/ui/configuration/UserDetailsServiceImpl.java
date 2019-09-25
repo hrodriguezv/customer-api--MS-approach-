@@ -1,7 +1,7 @@
 package com.client.manager.ui.configuration;
 
-import com.client.manager.ui.security.SecurityUtil;
 import com.client.manager.ui.service.IUserService;
+import com.client.manager.ui.util.SecurityUtil;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

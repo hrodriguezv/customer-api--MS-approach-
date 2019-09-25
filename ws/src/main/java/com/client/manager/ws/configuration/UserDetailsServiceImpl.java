@@ -2,7 +2,7 @@ package com.client.manager.ws.configuration;
 
 import com.client.manager.core.exception.UserNotFoundException;
 import com.client.manager.core.service.IUserService;
-import com.client.manager.ws.security.SecurityUtil;
+import com.client.manager.ws.util.SecurityUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
