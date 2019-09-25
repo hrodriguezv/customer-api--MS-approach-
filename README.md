@@ -1,6 +1,12 @@
 # Client Manager
 Aplicación desarrollada con el fin de manejar clientes de una empresa y sus sucursales.
 
+## How to run
+1. Clone the project:
+````
+
+````
+
 ## Requerimientos
 ### Tecnología a emplear en el Desarrollo Web 
 
@@ -95,7 +101,18 @@ Las mayorías de las funciones se desarrollaron para que sean unícas e independ
 * Todas las utilerías necesitadas para realizar correctamente las operaciones de persistir información en la base de datos se encuentran en el folder **/util**.
 
 ### WS
-* Las configuraciones hechas en el momento de incio de la aplicación de Spring Boot se encuentran en el foldr **/configuration**. Aquí se puede ver la configuración de seguridad, protección de los recursos expuestos, la configuración del token JWT y el servicio de búsqueda de usuario  por su nombre de usuario con el fin ofrecerlo a authentication provider de spring.
+* Las configuraciones hechas en el momento de incio de la aplicación de Spring Boot se encuentran en el foldr **/configuration**. Aquí se puede ver la configuración de seguridad, protección de los recursos expuestos, la configuración del token JWT y el servicio de búsqueda de usuario por su nombre de usuario, con el fin ofrecerlo al authentication manager de spring.
 * La configuración de como reaccionan los servicios rest ante una excepción para devolver un body personalizado se encuentra en el folder **/exception**. Cualquier otro file que necesite crearse con respecto al manejo de excepciones en el WS iría aquí.
 * Todos los controladores que configuran los endpoints del WS se encuentran bajo el folder **/rest**.
-* Todas las utilerías necesitadas para realizar correctamente el intercambio de información entre el cliente y el servidor se encuentran bajo el **/util**.
+* Todas las utilerías necesitadas para realizar correctamente el intercambio de información entre el cliente y el servidor se encuentran bajo el folder **/util**.
+* El **application.properties** y el archivo de inicio de data sql **data.sql** se encuentran en el folder de **/resources**.
+
+### UI
+* Las configuraciones hechas en el momento de incio de la aplicación de Spring Boot se encuentran en el foldr **/configuration**. Aquí se puede ver la configuración de seguridad, protección de los recursos expuestos al usuario, la configuración de Oauth2RestTemplate y el servicio de búsqueda de usuario por su nombre de usuario, con el fin ofrecerlo al authentication manager de spring.
+* Los controladores que exponen las vistas y las acciones de los usuarios en la UI se encuentran en el folder **/controller**.
+* Todos los servicios que abstraen la llamada al **ws** se encuentran bajo el folder **/service**.
+* Todas las utilerías necesitadas por la UI se encuentran en el folder **/util**.
+* El **application.properties**, los **css** de las vistas, las vistas **html** se encuentran en el folder de **/resources**. En **/templates** se encuentran las vistas y en **/static** los **css**.
+
+## Faltas
+* No me dio tiempo de aplicar las pruebas automatizadas TDD. Pensaba utilizat Spring boot test, Mockito y JUnit.
