@@ -8,6 +8,8 @@
 <div align="center">
     <h1>Create New Customer</h1>
     <br/>
+    <a th:href="@{/customer/list}">Go to View Customers</a>
+
     <form action="#" th:action="@{/customer/save}" th:object="${customer}" method="post">
         <table>
             <tr>
@@ -46,7 +48,7 @@
                 <td><input type="email" th:field="*{email}" maxlength="200"/></td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td>
                     <button type="submit">Save</button>
                 </td>
             </tr>

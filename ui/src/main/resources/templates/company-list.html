@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>Client Manager</title>
+</head>
+<body>
+<h1>View Companies</h1>
+<br/>
+<a th:href="@{/index}">Go to Index</a>
+<a th:href="@{/company/new}">Create New Company</a>
+
+<form action="#" th:action="@{/company/list}" method="get">
+
+    <table>
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{/company/list(sort=${'id,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
+                   th:text="'Company ID'"></a>
+            </th>
+            <th>
+                <a th:href="@{/company/list(sort=${'name,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
+                   th:text="'Name'"></a>
+            </th>
+            <th>
+                <a th:href="@{/company/list(sort=${'trunk,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
+                   th:text="'Trunk'"></a>
+            </th>
+            <th>
+                <a th:href="@{/company/list(sort=${'address,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
+                   th:text="'Address'"></a>
+            </th>
+            <th>
+                <a th:href="@{/company/list(sort=${'createdDate,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
+                   th:text="'Created Date'"></a>
+            </th>
+            <th>
+                <a th:href="@{/company/list(sort=${'status,' + (#strings.contains(param.sort == null ? '' : param.sort,'asc') ? 'desc' : 'asc')}, size=${companyPage.size}, page=${param.page})}"
+                   th:text="'Status'"></a>
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="company : ${companyPage.content}">
+            <td th:text="${company.id}"></td>
+            <td th:text="${company.name}"></td>
+            <td th:text="${company.trunk}"></td>
+            <td th:text="${company.address}"></td>
+            <td th:text="${#dates.format(company.createdDateAsDate, 'dd/MM/yyyy')}"></td>
+            <td th:text="${company.status}"></td>
+            <td><a th:if="${company.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/company/edit/' + ${company.id}}">Edit</a></td>
+            <td><a th:if="${company.status == T(com.client.manager.entities.status.StatusDefinedValue).ENABLED}"
+                   th:href="@{'/company/delete/' + ${company.id}}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:if="${param.page != null and not #strings.isEmpty(param.page) and #conversions.convert(param.page, 'java.lang.Long') - 1 &gt; 0}"
+       th:href="@{/company/list(sort=${param.sort}, size=${companyPage.size}, page=${#conversions.convert(param.page, 'java.lang.Long') - 1})}"
+       th:text="Prev."></a>
+    <div th:if="${companyPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/company/list(sort=${param.sort}, size=${companyPage.size}, page=${pageNumber})}"
+           th:text=${pageNumber}></a>
+    </div>
+    <a th:if="${((param.page == null or #strings.isEmpty(param.page)) and companyPage.totalPages > 1) or (param.page != null and not #strings.isEmpty(param.page) and #conversions.convert(param.page, 'java.lang.Long') &lt; companyPage.totalPages)}"
+       th:href="@{/company/list(sort=${param.sort}, size=${companyPage.size}, page=${param.page == null ? 2 : #conversions.convert(param.page, 'java.lang.Long') + 1})}"
+       th:text="'Next'"></a>
+</form>
+
+</body>
+</html>

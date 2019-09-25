@@ -6,44 +6,38 @@
 </head>
 <body>
 <div align="center">
-    <h1>Edit Customer</h1>
+    <h1>Create New Company</h1>
     <br/>
-    <a th:href="@{/customer/list}">Go to View Customers</a>
+    <a th:href="@{/company/list}">Go to View Companies</a>
 
-    <form action="#" th:action="@{/customer/update}" th:object="${customer}" method="post">
-        <input type="hidden" th:field="*{id}" th:attr="name='id'"/>
-
+    <form action="#" th:action="@{/company/save}" th:object="${company}" method="post">
         <table>
             <tr>
                 <td>Name:</td>
                 <td><input type="text" th:field="*{name}" maxlength="30"/></td>
             </tr>
             <tr>
-                <td>Last Name:</td>
-                <td><input type="text" th:field="*{lastName}" maxlength="30"/></td>
+                <td>Description:</td>
+                <td><input type="text" th:field="*{description}" maxlength="150"/></td>
             </tr>
             <tr>
                 <td>Address:</td>
                 <td><input type="text" th:field="*{address}" maxlength="150"/></td>
             </tr>
             <tr>
+                <td>Trunk:</td>
+                <td><input type="checkbox" th:field="*{trunk}"/></td>
+            </tr>
+            <tr>
                 <td></td>
                 <td>
-                    <select th:field="*{company.id}">
+                    <select th:field="*{parent.id}">
                         <option value="">Select a Company</option>
                         <option th:each="company : ${companies}"
                                 th:value="${company.id}"
                                 th:text="${company.name}"></option>
                     </select>
                 </td>
-            </tr>
-            <tr>
-                <td>Username:</td>
-                <td><input type="text" th:field="*{username}" maxlength="30"/></td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td><input type="email" th:field="*{email}" maxlength="200"/></td>
             </tr>
             <tr>
                 <td>

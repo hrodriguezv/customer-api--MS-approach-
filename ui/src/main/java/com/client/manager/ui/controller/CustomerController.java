@@ -47,7 +47,7 @@ public class CustomerController {
     }
 
     @RequestMapping("/edit/{customerId}")
-    public ModelAndView showEditProductPage(@PathVariable Long customerId) {
+    public ModelAndView showEditCustomerPage(@PathVariable Long customerId) {
         ModelAndView mav = new ModelAndView("customer-edit");
         CustomerDTO customer = this.customerService.getById(customerId).getBody();
 
@@ -115,7 +115,7 @@ public class CustomerController {
                         )
         )
                 .map(ResponseEntity::getBody)
-                .ifPresent((customerPage) -> this.setupProductListView(model, customerPage));
+                .ifPresent((customerPage) -> this.setupCustomerListView(model, customerPage));
 
         PageDTO<CompanyDTO> companyPage = this.companyService
                 .getList(null)
@@ -131,7 +131,7 @@ public class CustomerController {
         return "customer-list";
     }
 
-    private void setupProductListView(final Model model, PageDTO<CustomerDTO> customerPage) {
+    private void setupCustomerListView(final Model model, PageDTO<CustomerDTO> customerPage) {
         int totalPages = customerPage.getTotalPages();
 
         if (totalPages > 0) {
