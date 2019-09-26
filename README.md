@@ -29,6 +29,7 @@ El proyecto de los servicios corre en el puerto **8081** con el contextPath **/c
 * El path para **swagger** es: _**http://localhost:8081/client-manager-ws/swagger-ui.html**.
 
 El client id para consumir los servicios es: _**client-manager-trusted-client**_.
+
 El client secret para consumir los servicios es: _**Y2xpZW50LW1hbmFnZXItZHVtbXktcGFzc3dvcmQ=**_.
 
 Puede utilizar las siguites credenciales para acceder a los servicios:
