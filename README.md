@@ -1,11 +1,68 @@
 # Client Manager
 Aplicación desarrollada con el fin de manejar clientes de una empresa y sus sucursales.
 
-## How to run
-1. Clone the project:
+## Correr la aplicación
+1. Clona el proyecto:
+````
+git clone https://github.com/reynoldmorel/client-manager.git
+````
+2. Ve al folder raíz del proyecto **client-manager**.
+3. Contruye el proyecto:
+````
+mvn clean package
+````
+4. Ve al folder **/ui/target**.
+5. Corre el jar para subir la UI:
+````
+java -jar ui-1.0.jar
+````
+4. Ve al folder **/ws/target**.
+5. Corre el jar:
+````
+java -jar ws-1.0.jar
 ````
 
+## WS
+El proyecto de los servicios corre en el puerto **8081** con el contextPath **/client-manager-ws**:
+* El base path para acceder al ws es: _**http://localhost:8081/client-manager-ws**.
+* El path para **h2 console** es: _**http://localhost:8081/client-manager-ws/h2-console**.
+* El path para **swagger** es: _**http://localhost:8081/client-manager-ws/swagger-ui.html**.
+
+El client id para consumir los servicios es: _**client-manager-trusted-client**_.
+El client secret para consumir los servicios es: _**Y2xpZW50LW1hbmFnZXItZHVtbXktcGFzc3dvcmQ=**_.
+
+Puede utilizar las siguites credenciales para acceder a los servicios:
+1. Juan: que es un usuario común y corriente que solo tiene accessos para ver información pero no para alterarla. Las credenciales:
+    * **username: juan**
+    * **password: 123456**
+2. Pedro: que es administrador. Las credenciales:
+    * **username: pedro**
+    * **password: 123456**
+
+Debe tomar en cuenta que como se está utilizando OAuth 2.0, para mayor seguridad el token expira cada 15 segundos. Si quiere cambiar este valor:
+
+1. Diríjase al archivo **/data.sql**:
 ````
+insert into oauth_client_details
+(client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri,
+authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove)
+values
+('client-manager-trusted-client', 'client-manager-ws-resources', '$e0801$qMbwUtTUOXd+MJvEcAFpEqV57AKeRaugqbjpc4Mgh+hGyqWN23NEiuslRqamVZUQ16QpRVVnua69tG4HcaKYaQ==$hbb6Y3TXm+UVkkAYA5kKBDDn5CQnnSBnjUHHDecreo4=', 'read,write',
+'password,client_credentials', '', '', 60, 15, null, 'false');
+````
+2. Cambie el valor de la columna **access_token_validity** al gusto. Los valores se toman como segundos.
+
+## UI
+El proyecto de la UI corre en el puerto **8082** con el contextPath **/client-manager-ui**:
+* El base path para acceder a la UI es: _**http://localhost:8082/client-manager-ui**.
+
+Puede utilizar las siguites credenciales para acceder a la UI:
+1. Juan: que es un usuario común y corriente que solo tiene accessos para ver información pero no para alterarla. Las credenciales:
+    * **username: juan**
+    * **password: 123456**
+2. Pedro: que es administrador. Las credenciales:
+    * **username: pedro**
+    * **password: 123456**
 
 ## Requerimientos
 ### Tecnología a emplear en el Desarrollo Web 
