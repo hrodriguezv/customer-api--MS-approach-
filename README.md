@@ -22,7 +22,7 @@ java -jar ui-1.0.jar
 java -jar ws-1.0.jar
 ````
 
-## WS
+### WS
 El proyecto de los servicios corre en el puerto **8081** con el contextPath **/client-manager-ws**:
 * El base path para acceder al ws es: _**http://localhost:8081/client-manager-ws**.
 * El path para **h2 console** es: _**http://localhost:8081/client-manager-ws/h2-console**.
@@ -52,7 +52,7 @@ values
 ````
 2. Cambie el valor de la columna **access_token_validity** al gusto. Los valores se toman como segundos.
 
-## UI
+### UI
 El proyecto de la UI corre en el puerto **8082** con el contextPath **/client-manager-ui**:
 * El base path para acceder a la UI es: _**http://localhost:8082/client-manager-ui**.
 
