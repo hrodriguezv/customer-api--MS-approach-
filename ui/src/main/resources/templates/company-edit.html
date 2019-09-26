@@ -18,26 +18,26 @@
 
         <table>
             <tr>
-                <td>Name:</td>
+                <td>Name*</td>
                 <td><input type="text" th:field="*{name}" maxlength="30"/></td>
             </tr>
             <tr>
-                <td>Description:</td>
+                <td>Description</td>
                 <td><input type="text" th:field="*{description}" maxlength="150"/></td>
             </tr>
             <tr>
-                <td>Address:</td>
+                <td>Address*</td>
                 <td><input type="text" th:field="*{address}" maxlength="150"/></td>
             </tr>
             <tr>
-                <td>Trunk:</td>
+                <td>Trunk</td>
                 <td><input type="checkbox" th:field="*{trunk}"/></td>
             </tr>
             <tr>
-                <td>Select a Company</td>
+                <td>Select a Trunk Company</td>
                 <td>
                     <select th:field="*{parent.id}">
-                        <option value="">None</option>
+                        <option value="">No Trunk</option>
                         <option th:each="company : ${companies}"
                                 th:value="${company.id}"
                                 th:text="${company.name}"></option>

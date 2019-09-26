@@ -88,7 +88,9 @@ public class CustomerValidation {
         CustomerValidation.validatePasswordLength(customer);
         CustomerValidation.validateCompany(customer);
         CustomerValidation.validateAddressLength(customer);
-        EmailValidation.validate(customer.getEmail());
+        Optional.ofNullable(customer.getEmail())
+                .filter(e -> !e.isEmpty())
+                .ifPresent(EmailValidation::validate);
     }
 
     public static void validateSkipPasswordLength(CustomerDTO customer) {
@@ -101,7 +103,9 @@ public class CustomerValidation {
         CustomerValidation.validatePasswordEmpty(customer);
         CustomerValidation.validateCompany(customer);
         CustomerValidation.validateAddressLength(customer);
-        EmailValidation.validate(customer.getEmail());
+        Optional.ofNullable(customer.getEmail())
+                .filter(e -> !e.isEmpty())
+                .ifPresent(EmailValidation::validate);
     }
 
 }

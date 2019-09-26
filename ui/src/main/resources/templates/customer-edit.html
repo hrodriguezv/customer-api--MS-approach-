@@ -18,22 +18,22 @@
 
         <table>
             <tr>
-                <td>Name:</td>
+                <td>Name*</td>
                 <td><input type="text" th:field="*{name}" maxlength="30"/></td>
             </tr>
             <tr>
-                <td>Last Name:</td>
+                <td>Last Name*</td>
                 <td><input type="text" th:field="*{lastName}" maxlength="30"/></td>
             </tr>
             <tr>
-                <td>Address:</td>
+                <td>Address</td>
                 <td><input type="text" th:field="*{address}" maxlength="150"/></td>
             </tr>
             <tr>
-                <td>Select a Company</td>
+                <td>Select a Company*</td>
                 <td>
                     <select th:field="*{company.id}">
-                        <option value="">None</option>
+                        <option value=""></option>
                         <option th:each="company : ${companies}"
                                 th:value="${company.id}"
                                 th:text="${company.name}"></option>
@@ -41,11 +41,11 @@
                 </td>
             </tr>
             <tr>
-                <td>Username:</td>
+                <td>Username*</td>
                 <td><input type="text" th:field="*{username}" maxlength="30"/></td>
             </tr>
             <tr>
-                <td>Email:</td>
+                <td>Email</td>
                 <td><input type="email" th:field="*{email}" maxlength="200"/></td>
             </tr>
             <tr>

@@ -15,8 +15,8 @@ public class IndexController {
     }
 
     @GetMapping
-    public String showEntryPoint(final Model model) {
-        return "index";
+    public String redirectToIndex(final Model model) {
+        return "redirect:/index";
     }
 
     @GetMapping("/index")
