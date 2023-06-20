@@ -14,7 +14,7 @@
 
     <properties>
         <client.manager.entities.version>1.0</client.manager.entities.version>
-        <spring.security.oauth2.version>2.3.0.RELEASE</spring.security.oauth2.version>
+        <spring.security.oauth2.version>2.3.5.RELEASE</spring.security.oauth2.version>
         <spring.security.jwt.version>1.0.9.RELEASE</spring.security.jwt.version>
     </properties>
 
